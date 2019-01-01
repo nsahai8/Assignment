@@ -24,7 +24,6 @@ public class TheHindu implements Newspaper{
 	}
 	
 	public Map<String, String> getAuthorLinkMapping(){
-		
 		Map<String, String> result = scrapingService.getAllAvailableAuthors();
 		authorLinkMapping.putAll(result);
 		return result;
@@ -32,8 +31,18 @@ public class TheHindu implements Newspaper{
 
 	@Override
 	public Set<String> getAriclesByAuthorName(String authorName) {
-//		String authorPage = authorLinkMapping.get(authorName);
-		authorPage = "https://www.thehindu.com/thread/author/Aarati-Krishnan/";
-		return null;
+		if(!authorLinkMapping.containsKey(authorName)) {
+			authorLinkMapping.putAll(scrapingService.getAllAvailableAuthors());
+		}
+		String authorPage = authorLinkMapping.get(authorName.trim().toLowerCase().replace(" ", ""));
+		Set<String> articles =  scrapingService.getAriticlesByAuthorName(authorPage);
+		return articles;
+	}
+
+	@Override
+	public Set<String> getArticlesByTitleAndDescription(String title, String description) {
+		String authorPage = "https://www.thehindu.com/thread/author/Aarati-Krishnan/";
+		Set<String> articles =  scrapingService.getArticlesByTitleAndDescription(authorPage,title, description);
+		return articles;
 	}
 }

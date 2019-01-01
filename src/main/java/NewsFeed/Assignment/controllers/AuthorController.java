@@ -16,13 +16,16 @@ public class AuthorController {
 	
 	private Newspaper newspaper;
 	
+//	http://localhost:8080/authors/availableAuthors
 	@RequestMapping(value="/availableAuthors")
 	public Set<String> getAllAvailableAuthors(String newspaperStr){
-		newspaper = NewspaperFactory.getNewspaper("hindu");
+		newspaper = NewspaperFactory.getNewspaper("hindu");//Todo
 		Set<String> authors = newspaper.getAuthorLinkMapping().keySet();
 		return authors;
 		
 	}
+	
+
 	
 	
 	
