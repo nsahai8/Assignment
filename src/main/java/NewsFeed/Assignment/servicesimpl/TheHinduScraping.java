@@ -1,7 +1,9 @@
 package NewsFeed.Assignment.servicesimpl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -52,17 +54,46 @@ public class TheHinduScraping implements ScrapingService {
 	private static Map<String, String> extractAuthorNameAndLink(Document document) {
 		Map<String, String> authorLink = new HashMap<String, String>();
 		
-		Elements eles = document.getElementsByClass("authorwidgethome col-md-3 col-sm-4 col-xs-6 clearfix");
+		Elements eles = document.getElementsByClass("authorwidgethome");
 		for(Element e :eles) {
 			Element m = e.getElementsByTag("h4").first();
-			String author = m.text();
+			String author = m.text().trim().toLowerCase().replace(" ", "");
 			String link = m.getElementsByAttribute("href").first().attr("href");
 			authorLink.put(author, link);
-//			System.out.println(author+" "+link);
 			
 		}
-		System.out.println(authorLink.size());
 		return authorLink;
+	}
+
+	@Override
+	public Set<String> getAriticlesByAuthorName(String authorPage) {
+		Map<String, String> articleLinkMaping = new HashMap<>();
+		try {
+			Document document = Jsoup.connect(authorPage).get();
+			Elements eles = document.getElementsByClass("searchAuthRt");
+			for(Element ele: eles) {
+				String artcle =  ele.getElementsByTag("a").text();
+				String link =  ele.getElementsByTag("a").attr("href");
+				articleLinkMaping.put(artcle, link);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//add logs
+			e.printStackTrace();
+		}
+		return articleLinkMaping.keySet();
+	}
+
+	@Override
+	public Set<String> getArticlesByTitleAndDescription(String authorPage,String title, String description) {
+		try {
+			Document document = Jsoup.connect(authorPage).get();
+			System.out.println(document);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	
