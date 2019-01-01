@@ -37,7 +37,7 @@ Apis:
       1.Factory Design Pattern
       The Newspaper Factory and ScraperStrategy Factory are the two classes used to give the object of the newspaper and the         strategy used to complete a task
       
-      The Project is flexible enough to include other websites and the strategy involved.The Scraping Strategy is independent       of the newspaper used.
+      The Project is flexible enough to include other websites and the strategy involved.The Scraping Strategy is independent of the newspaper used.
   
   
   
